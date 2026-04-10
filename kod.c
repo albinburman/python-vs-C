@@ -5,8 +5,7 @@
 
 #define MAX_LOG 100
 
-
-// Ip Kollen (visst är jag proffs som skriver kommentarer ;) )
+// ---------------- IP-VALIDERING ----------------
 int validate_ip(const char *ip) {
     int num, dots = 0;
     char *ptr;
@@ -34,7 +33,14 @@ int validate_ip(const char *ip) {
     }
 
     return dots == 4;
-}// ---------------- MAIN ----------------
+}
+
+// ---------------- PORT-VALIDERING ----------------
+int validate_port(int port) {
+    return port >= 1 && port <= 65535;
+}
+
+// ---------------- MAIN ----------------
 int main() {
     int choice;
     char ip[50];
@@ -46,6 +52,9 @@ int main() {
     while (1) {
         printf("\n═══ NÄTVERKSVERKTYG ═══\n");
         printf("1. Validera IP-adress\n");
+        printf("2. Validera port\n");
+        printf("3. Visa logg\n");
+        printf("4. Avsluta\n");
         printf("Välj ett alternativ: ");
         scanf("%d", &choice);
         getchar(); // rensa newline
@@ -66,7 +75,30 @@ int main() {
                 }
                 break;
 
+            case 2:
+                printf("Ange port: ");
+                scanf("%d", &port);
+                getchar();
 
+                if (validate_port(port)) {
+                    printf("%d är en giltig port.\n", port);
+                    snprintf(logg[log_count++], 100, "Port %d - giltig", port);
+                } else {
+                    printf("%d är inte en giltig port.\n", port);
+                    snprintf(logg[log_count++], 100, "Port %d - ogiltig", port);
+                }
+                break;
+
+            case 3:
+                printf("\n═══ LOGG ═══\n");
+                for (int i = 0; i < log_count; i++) {
+                    printf("%d. %s\n", i + 1, logg[i]);
+                }
+                break;
+
+            case 4:
+                printf("Avslutar programmet...\n");
+                return 0;
 
             default:
                 printf("Ogiltigt val.\n");
