@@ -14,5 +14,8 @@ def validate_ip(ip):
 
     return True
 
+def validate_port(port):
+    return 1 <= port <= 65535
+
 
 
